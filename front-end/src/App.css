@@ -1,0 +1,20 @@
+/* CSS for the table */
+.table-auto {
+  width: 60%;
+  border-collapse: collapse;
+}
+
+.table-auto th,
+.table-auto td {
+  padding: 4px;
+  border: 1px solid whitesmoke; /* Use your desired border color */
+}
+
+.table-auto th {
+ /* Header background color */
+  color: #fff; /* Header text color */
+}
+
+
+
+
