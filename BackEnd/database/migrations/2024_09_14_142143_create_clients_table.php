@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('prenom');
-            $table->string('assurance');
-            $table->string('telephone');
+            $table->string('nom')->nullable();
+            $table->string('prenom')->nullable();
+            $table->string('assurance')->nullable();
+            $table->string('telephone')->nullable();
             $table->unsignedBigInteger('admin_id')->nullable();
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->timestamps();
         });
+
     }
 
     /**

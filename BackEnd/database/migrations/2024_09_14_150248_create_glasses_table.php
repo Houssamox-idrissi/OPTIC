@@ -13,24 +13,28 @@ return new class extends Migration
     {
         Schema::create('glasses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('type_verre_id')->constrained('type_verres'); //blue..
-            $table->string('nature_de_glasse');
-            $table->string('vision');
-            // OG
-            $table->decimal('og_sph', 5, 2);
-            $table->decimal('og_cyl', 5, 2);
-            $table->integer('og_axe');
+            $table->foreignId('type_verre_id')->nullable()->constrained('type_verres'); //nullable type_verre_id
+            $table->string('nature_de_glasse')->nullable();
+            $table->string('vision')->nullable();
+
+            // OG fields
+            $table->decimal('og_sph', 5, 2)->nullable();
+            $table->decimal('og_cyl', 5, 2)->nullable();
+            $table->integer('og_axe')->nullable();
             $table->decimal('og_addition', 5, 2)->nullable();
-            // OD
-            $table->decimal('od_sph', 5, 2);
-            $table->decimal('od_cyl', 5, 2);
-            $table->integer('od_axe');
+
+            // OD fields
+            $table->decimal('od_sph', 5, 2)->nullable();
+            $table->decimal('od_cyl', 5, 2)->nullable();
+            $table->integer('od_axe')->nullable();
             $table->decimal('od_addition', 5, 2)->nullable();
-            $table->foreignId('fournisseur_id')->constrained('fournisseurs');
+
+            $table->foreignId('fournisseur_id')->nullable()->constrained('fournisseurs'); //nullable fournisseur_id
             $table->unsignedBigInteger('admin_id')->nullable();
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->timestamps();
         });
+
     }
 
     /**

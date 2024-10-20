@@ -21,33 +21,32 @@ class ClientCommandGlassesController extends Controller
     {
         $admin = JWTAuth::parseToken()->authenticate();
 
-
         $validatedData = $request->validate([
-            'nom' => 'required_if:client_id,null|string',
-            'prenom' => 'required_if:client_id,null|string',
-            'telephone' => 'required_if:client_id,null|string',
-            'assurance' => 'required_if:client_id,null|string',
+            'nom' => 'nullable|string',
+            'prenom' => 'nullable|string',
+            'telephone' => 'nullable|string',
+            'assurance' => 'nullable|string',
             'client_id' => 'nullable|exists:clients,id',
-            'date' => 'required|date',
-            'medecin' => 'required|string',
-            'prix' => 'required|numeric',
-            'avance' => 'required|numeric',
+            'date' => 'nullable|date',
+            'medecin' => 'nullable|string',
+            'prix' => 'nullable|numeric',
+            'avance' => 'nullable|numeric',
             'notes' => 'nullable|string',
-            'remise' => 'required|numeric',
-            'reste' => 'required|numeric',
-            'ordonnance' => 'nullable|file',
-            'type_verre_id' => 'required|exists:type_verres,id',
-            'nature_de_glasse' => 'required|string',
-            'vision' => 'required|string',
-            'og_sph' => 'required|numeric',
-            'og_cyl' => 'required|numeric',
-            'og_axe' => 'required|numeric',
-            'og_addition' => 'required|numeric',
-            'od_sph' => 'required|numeric',
-            'od_cyl' => 'required|numeric',
-            'od_axe' => 'required|numeric',
-            'od_addition' => 'required|numeric',
-            'fournisseur_id' => 'required|exists:fournisseurs,id'
+            'remise' => 'nullable|numeric',
+            'reste' => 'nullable|numeric',
+            'ordonnance' => 'nullable',
+            'type_verre_id' => 'nullable|exists:type_verres,id',
+            'nature_de_glasse' => 'nullable|string',
+            'vision' => 'nullable|string',
+            'og_sph' => 'nullable|numeric',
+            'og_cyl' => 'nullable|numeric',
+            'og_axe' => 'nullable|numeric',
+            'og_addition' => 'nullable|numeric',
+            'od_sph' => 'nullable|numeric',
+            'od_cyl' => 'nullable|numeric',
+            'od_axe' => 'nullable|numeric',
+            'od_addition' => 'nullable|numeric',
+            'fournisseur_id' => 'nullable|exists:fournisseurs,id'
         ]);
 
         if ($request->has('client_id')) {
@@ -69,10 +68,11 @@ class ClientCommandGlassesController extends Controller
                 ]);
             }
         }
+
         $fileName = $request->hasFile('ordonnance') ? $request->file('ordonnance')->store('ordonnances') : null;
 
         $command = Command::create([
-            'date' => $validatedData['date'],
+            'date' => $validatedData['date'] ?? now(),
             'medecin' => $validatedData['medecin'],
             'prix' => $validatedData['prix'],
             'avance' => $validatedData['avance'],
@@ -112,35 +112,37 @@ class ClientCommandGlassesController extends Controller
         ]);
     }
 
+
     public function update(Request $request, $id)
     {
         $admin = JWTAuth::parseToken()->authenticate();
 
         $validatedData = $request->validate([
-            'nom' => 'string',
-            'prenom' => 'string',
-            'telephone' => 'string',
-            'assurance' => 'string',
-            'date' => 'date',
-            'medecin' => 'string',
-            'prix' => 'numeric',
-            'avance' => 'numeric',
+            'nom' => 'nullable|string',
+            'prenom' => 'nullable|string',
+            'telephone' => 'nullable|string',
+            'assurance' => 'nullable|string',
+            'client_id' => 'nullable|exists:clients,id',
+            'date' => 'nullable|date',
+            'medecin' => 'nullable|string',
+            'prix' => 'nullable|numeric',
+            'avance' => 'nullable|numeric',
             'notes' => 'nullable|string',
-            'remise' => 'numeric',
-            'reste' => 'numeric',
+            'remise' => 'nullable|numeric',
+            'reste' => 'nullable|numeric',
             'ordonnance' => 'nullable',
-            'type_verre_id' => 'exists:type_verres,id',
-            'nature_de_glasse' => 'string',
-            'vision' => 'string',
-            'og_sph' => 'numeric',
-            'og_cyl' => 'numeric',
-            'og_axe' => 'numeric',
-            'og_addition' => 'numeric',
-            'od_sph' => 'numeric',
-            'od_cyl' => 'numeric',
-            'od_axe' => 'numeric',
-            'od_addition' => 'numeric',
-            'fournisseur_id' => 'exists:fournisseurs,id'
+            'type_verre_id' => 'nullable|exists:type_verres,id',
+            'nature_de_glasse' => 'nullable|string',
+            'vision' => 'nullable|string',
+            'og_sph' => 'nullable|numeric',
+            'og_cyl' => 'nullable|numeric',
+            'og_axe' => 'nullable|numeric',
+            'og_addition' => 'nullable|numeric',
+            'od_sph' => 'nullable|numeric',
+            'od_cyl' => 'nullable|numeric',
+            'od_axe' => 'nullable|numeric',
+            'od_addition' => 'nullable|numeric',
+            'fournisseur_id' => 'nullable|exists:fournisseurs,id'
         ]);
 
         $command = Command::where('admin_id', $admin->id)->findOrFail($id);

@@ -20,11 +20,11 @@ function UpdateCommand() {
         assurance: '',
         date: '',
         medecin: '',
-        prix: '',
-        avance: '',
+        prix: 0,
+        avance: 0,
         notes: '',
-        remise: '',
-        reste: '',
+        remise: 0,
+        reste: 0,
         type_verre_id: '',
         nature_de_glasse: '',
         vision: '',
@@ -59,7 +59,7 @@ function UpdateCommand() {
         };
         fetchData();
     }, []);
-    
+
 
 
     const token = localStorage.getItem('adminToken');
@@ -88,7 +88,7 @@ function UpdateCommand() {
                     avance: command.avance,
                     notes: command.notes,
                     remise: command.remise,
-                    reste: command.reste,
+                    reste: command.prix - (command.avance || 0) - (command.remise || 0),
                     type_verre_id: glasses.type_verre_id,
                     nature_de_glasse: glasses.nature_de_glasse,
                     vision: glasses.vision,
@@ -107,12 +107,19 @@ function UpdateCommand() {
             .catch(error => console.error(error));
     }, [id]);
 
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            reste: (prevData.prix || 0) - (prevData.avance || 0) - (prevData.remise || 0),
+        }));
+    }, [formData.prix, formData.avance, formData.remise]);
+
 
     const handleChange = (e) => {
         if (e.target.name === 'ordonnance') {
             setFormData({
                 ...formData,
-                [e.target.name]: e.target.files[0], 
+                [e.target.name]: e.target.files[0],
             });
         } else {
             setFormData({
@@ -136,11 +143,6 @@ function UpdateCommand() {
             })
             .catch((error) => console.error('Error updating command:', error));
     };
-
-
-
-
-
 
     return (
         <>
@@ -289,35 +291,35 @@ function UpdateCommand() {
 
 
                             <section className="">
-                            <div className="grid md:grid-cols-3 gap-4">
-                                <div className="">
-                                    <label
-                                        htmlFor="ordonnance"
-                                        className="text-xl font-semibold mb-1 text-white" style={{ fontFamily: "monospace" }}
-                                    >
-                                        Ordonnance
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            type="file"
-                                            name="ordonnance"
-                                            onChange={handleChange}
-                                            className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-sm text-gray-900 placeholder-gray-800 file:border-0 file:bg-blue-50 file:text-slate-950 file:text-base file:cursor-pointer focus:outline-none focus:ring-2 focus:ring-slate-600 shadow-sm transition duration-300 ease-in-out"
-                                        />
-                                        <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v8l5 5M19 9h-4a4 4 0 00-4-4H6a4 4 0 00-4 4v10a4 4 0 004 4h10a4 4 0 004-4V9a4 4 0 00-4-4z"></path>
-                                            </svg>
-                                        </span>
+                                <div className="grid md:grid-cols-3 gap-4">
+                                    <div className="">
+                                        <label
+                                            htmlFor="ordonnance"
+                                            className="text-xl font-semibold mb-1 text-white" style={{ fontFamily: "monospace" }}
+                                        >
+                                            Ordonnance
+                                        </label>
+                                        <div className="relative">
+                                            <input
+                                                type="file"
+                                                name="ordonnance"
+                                                onChange={handleChange}
+                                                className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-sm text-gray-900 placeholder-gray-800 file:border-0 file:bg-blue-50 file:text-slate-950 file:text-base file:cursor-pointer focus:outline-none focus:ring-2 focus:ring-slate-600 shadow-sm transition duration-300 ease-in-out"
+                                            />
+                                            <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v8l5 5M19 9h-4a4 4 0 00-4-4H6a4 4 0 00-4 4v10a4 4 0 004 4h10a4 4 0 004-4V9a4 4 0 00-4-4z"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        {errors.ordonnance && (
+                                            <p className="text-red-600 text-xs mt-1">
+                                                {errors.ordonnance[0]}
+                                            </p>
+                                        )}
                                     </div>
-                                    {errors.ordonnance && (
-                                        <p className="text-red-600 text-xs mt-1">
-                                            {errors.ordonnance[0]}
-                                        </p>
-                                    )}
                                 </div>
-                            </div>
-                        </section>
+                            </section>
 
                             <section className="">
                                 <h3 className="text-xl font-semibold mb-5 text-white" style={{ fontFamily: "monospace" }}>Détail de la lunette</h3>

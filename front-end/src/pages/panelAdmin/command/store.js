@@ -22,11 +22,11 @@ function CreateClientCommandGlasses() {
     const [command, setCommand] = useState({
         date: "",
         medecin: "",
-        prix: "",
-        avance: "",
+        prix: 0,
+        avance: 0,
         notes: "",
-        remise: "",
-        reste: "",
+        remise: 0,
+        reste: 0,
         ordonnance: null
     });
 
@@ -92,10 +92,10 @@ function CreateClientCommandGlasses() {
         }
     };
     useEffect(() => {
-        const prix = parseFloat(command.prix) || 0;
-        const avance = parseFloat(command.avance) || 0;
+        const prix = parseFloat(command.prix) ;
+        const avance = parseFloat(command.avance) ;
         const remise = parseFloat(command.remise);
-        const reste = prix - (avance + remise);
+        const reste = prix - (avance + remise) || 0;
 
         setCommand(prevState => ({
             ...prevState,
@@ -186,7 +186,7 @@ function CreateClientCommandGlasses() {
             <div className="dashboard-container">
                 <div className='mt-2 ml-80 '>
                     <h2 className="mt-4 text-5xl font-extrabold text-center mb-8 text-gradient bg-clip-text text-transparent bg-white"
-                        style={{ fontFamily: 'Poppins, sans-serif' }}>Créer une commande</h2>
+                        style={{ fontFamily: 'Poppins, sans-serif' }}   >Créer une commande</h2>
                     <div className="" >
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <section className="">
@@ -450,53 +450,7 @@ function CreateClientCommandGlasses() {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
-                                            <tr className="hover:bg-blue-50 transition duration-200 ease-in-out">
-                                                <td className="px-6 py-4 text-gray-700 font-semibold">OG</td>
-                                                <td className="px-6 py-4">
-                                                    <input
-                                                        type="number"
-                                                        name="og_sph"
-                                                        step="0.25"
-                                                        value={glasses.og_sph}
-                                                        onChange={handleGlassesChange}
-                                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm transition duration-300 ease-in-out"
-                                                    />
-                                                    {errors.og_sph && <p className="text-red-500 text-sm mt-1">{errors.og_sph[0]}</p>}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <input
-                                                        type="number"
-                                                        name="og_cyl"
-                                                        step="0.25"
-                                                        value={glasses.og_cyl}
-                                                        onChange={handleGlassesChange}
-                                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm transition duration-300 ease-in-out"
-                                                    />
-                                                    {errors.og_cyl && <p className="text-red-500 text-sm mt-1">{errors.og_cyl[0]}</p>}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <input
-                                                        type="number"
-                                                        step="0.25"
-                                                        name="og_axe"
-                                                        value={glasses.og_axe}
-                                                        onChange={handleGlassesChange}
-                                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm transition duration-300 ease-in-out"
-                                                    />
-                                                    {errors.og_axe && <p className="text-red-500 text-sm mt-1">{errors.og_axe[0]}</p>}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <input
-                                                        type="number"
-                                                        name="og_addition"
-                                                        step="0.25"
-                                                        value={glasses.og_addition}
-                                                        onChange={handleGlassesChange}
-                                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm transition duration-300 ease-in-out"
-                                                    />
-                                                    {errors.og_addition && <p className="text-red-500 text-sm mt-1">{errors.og_addition[0]}</p>}
-                                                </td>
-                                            </tr>
+                                            {/* OD */}
                                             <tr className="hover:bg-blue-50 transition duration-200 ease-in-out">
                                                 <td className="px-6 py-4 text-gray-700 font-semibold">OD</td>
                                                 <td className="px-6 py-4">
@@ -542,6 +496,54 @@ function CreateClientCommandGlasses() {
                                                         className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm transition duration-300 ease-in-out"
                                                     />
                                                     {errors.od_addition && <p className="text-red-500 text-sm mt-1">{errors.od_addition[0]}</p>}
+                                                </td>
+                                            </tr>
+                                            {/* OG */}
+                                            <tr className="hover:bg-blue-50 transition duration-200 ease-in-out">
+                                                <td className="px-6 py-4 text-gray-700 font-semibold">OG</td>
+                                                <td className="px-6 py-4">
+                                                    <input
+                                                        type="number"
+                                                        name="og_sph"
+                                                        step="0.25"
+                                                        value={glasses.og_sph}
+                                                        onChange={handleGlassesChange}
+                                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm transition duration-300 ease-in-out"
+                                                    />
+                                                    {errors.og_sph && <p className="text-red-500 text-sm mt-1">{errors.og_sph[0]}</p>}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <input
+                                                        type="number"
+                                                        name="og_cyl"
+                                                        step="0.25"
+                                                        value={glasses.og_cyl}
+                                                        onChange={handleGlassesChange}
+                                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm transition duration-300 ease-in-out"
+                                                    />
+                                                    {errors.og_cyl && <p className="text-red-500 text-sm mt-1">{errors.og_cyl[0]}</p>}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <input
+                                                        type="number"
+                                                        step="0.25"
+                                                        name="og_axe"
+                                                        value={glasses.og_axe}
+                                                        onChange={handleGlassesChange}
+                                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm transition duration-300 ease-in-out"
+                                                    />
+                                                    {errors.og_axe && <p className="text-red-500 text-sm mt-1">{errors.og_axe[0]}</p>}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <input
+                                                        type="number"
+                                                        name="og_addition"
+                                                        step="0.25"
+                                                        value={glasses.og_addition}
+                                                        onChange={handleGlassesChange}
+                                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 shadow-sm transition duration-300 ease-in-out"
+                                                    />
+                                                    {errors.og_addition && <p className="text-red-500 text-sm mt-1">{errors.og_addition[0]}</p>}
                                                 </td>
                                             </tr>
                                         </tbody>

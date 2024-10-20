@@ -13,19 +13,20 @@ return new class extends Migration
     {
         Schema::create('commands', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->string('medecin');
-            $table->decimal('prix', 8, 2);
-            $table->decimal('avance', 8, 2);
-            $table->decimal('remise', 8, 2);
-            $table->decimal('reste', 8, 2);
-            $table->string('ordonnance');
-            $table->string('status')->default('Pending');
-            $table->string('notes');
+            $table->date('date')->nullable();
+            $table->string('medecin')->nullable();
+            $table->decimal('prix', 8, 2)->nullable();
+            $table->decimal('avance', 8, 2)->nullable();
+            $table->decimal('remise', 8, 2)->nullable();
+            $table->decimal('reste', 8, 2)->nullable();
+            $table->string('ordonnance')->nullable();
+            $table->string('status')->default('Pending'); // keeping default value for status
+            $table->string('notes')->nullable();
             $table->unsignedBigInteger('admin_id')->nullable();
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->timestamps();
         });
+
 
     }
 
